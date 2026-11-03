@@ -18,12 +18,31 @@ function Brand({ id }: { id: string }) {
   const fills: Record<string, string> = {
     cursor: '#111',
     claude: '#d97757',
-    codex: '#5b7c99',
-    github: '#333',
+    codex: '#10a37f',
+    copilot: '#6e40c9',
+    openclaw: '#c45c26',
+    windsurf: '#0e8f8c',
+    gemini: '#4285f4',
+    cline: '#5b6abf',
+  }
+  const fill = fills[id] ?? '#888'
+  if (id === 'openclaw') {
+    return (
+      <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
+        <circle cx="6" cy="6" r="5.2" fill={fill} />
+      </svg>
+    )
+  }
+  if (id === 'gemini') {
+    return (
+      <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
+        <path d="M6 1.1 10.9 6 6 10.9 1.1 6Z" fill={fill} />
+      </svg>
+    )
   }
   return (
     <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
-      <rect width="12" height="12" rx="2" fill={fills[id] ?? '#888'} />
+      <rect width="12" height="12" rx="2" fill={fill} />
     </svg>
   )
 }
@@ -103,6 +122,7 @@ function Home() {
             <li key={a.id}>
               <Brand id={a.id} />
               <span>{a.name}</span>
+              <span className="n">{a.sessions}</span>
             </li>
           ))}
         </ul>

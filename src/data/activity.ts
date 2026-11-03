@@ -1,13 +1,18 @@
 export interface AgentBrand {
   id: string
   name: string
+  sessions: number
 }
 
 export const TOOLS: AgentBrand[] = [
-  { id: 'cursor', name: 'Cursor' },
-  { id: 'claude', name: 'Claude Code' },
-  { id: 'codex', name: 'Codex' },
-  { id: 'github', name: 'GitHub' },
+  { id: 'cursor', name: 'Cursor', sessions: 394 },
+  { id: 'claude', name: 'Claude Code', sessions: 371 },
+  { id: 'codex', name: 'Codex', sessions: 286 },
+  { id: 'copilot', name: 'GitHub Copilot', sessions: 218 },
+  { id: 'openclaw', name: 'OpenClaw', sessions: 142 },
+  { id: 'windsurf', name: 'Windsurf', sessions: 119 },
+  { id: 'gemini', name: 'Gemini CLI', sessions: 88 },
+  { id: 'cline', name: 'Cline', sessions: 67 },
 ]
 
 function mulberry32(seed: number) {
@@ -39,4 +44,4 @@ export function buildHeatmap(weeks = 26) {
 }
 
 export const HEATMAP = buildHeatmap()
-export const TOTAL_ACTIONS = HEATMAP.reduce((sum, n) => sum + n, 0)
+export const TOTAL_ACTIONS = TOOLS.reduce((sum, tool) => sum + tool.sessions, 0)
