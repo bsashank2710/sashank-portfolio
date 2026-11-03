@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { HEATMAP, TOOLS, TOTAL_ACTIONS } from './data/activity'
+import { cellColor, HEATMAP, TOOLS, TOTAL_ACTIONS } from './data/activity'
 import { BUILDING, ON_THE_WEB } from './data/work'
 import { CURRENTLY_READING, LIBRARY } from './data/library'
 import { WRITINGS, getWriting } from './data/writings'
@@ -15,17 +15,7 @@ function href(to: string) {
 }
 
 function Brand({ id }: { id: string }) {
-  const fills: Record<string, string> = {
-    cursor: '#111',
-    claude: '#d97757',
-    codex: '#10a37f',
-    copilot: '#6e40c9',
-    openclaw: '#c45c26',
-    windsurf: '#0e8f8c',
-    gemini: '#4285f4',
-    cline: '#5b6abf',
-  }
-  const fill = fills[id] ?? '#888'
+  const fill = TOOLS.find((tool) => tool.id === id)?.color ?? '#888'
   if (id === 'openclaw') {
     return (
       <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
@@ -91,11 +81,15 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function Heatmap() {
-  const level = (n: number) => (n <= 0 ? '' : n === 1 ? 'l1' : n === 2 ? 'l2' : n === 3 ? 'l3' : 'l4')
   return (
-    <div className="heatmap" role="img" aria-label="Recent build activity">
-      {HEATMAP.map((n, i) => (
-        <span key={i} className={`heat-cell ${level(n)}`} title={`${n} sessions`} />
+    <div className="heatmap" role="img" aria-label="Recent build activity by agent">
+      {HEATMAP.map((cell, i) => (
+        <span
+          key={i}
+          className={`heat-cell${cell.level ? ` l${cell.level}` : ''}`}
+          style={cell.tool ? { background: cellColor(cell) } : undefined}
+          title={cell.tool ? `${cell.tool.name} · ${cell.level}` : 'No session'}
+        />
       ))}
     </div>
   )
