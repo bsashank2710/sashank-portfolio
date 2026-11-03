@@ -1,0 +1,381 @@
+:root {
+  --background: #f6f5f2;
+  --foreground: #111;
+  --subtle: #555;
+  --accent: #2e4057;
+  --line: #1111111f;
+  --serif: 'Source Serif 4', 'Times New Roman', serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.page {
+  display: flex;
+  width: 100%;
+  max-width: 48rem;
+  flex-direction: column;
+  padding: 8rem 1rem 2rem;
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+.masthead {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 0;
+}
+
+.masthead h1 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.nav a:hover,
+.nav a.is-active {
+  color: var(--accent);
+}
+
+.tagline {
+  margin: 0.5rem 0 0;
+  color: var(--subtle);
+}
+
+.bio {
+  max-width: 40rem;
+  color: var(--subtle);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  margin-top: 2.4rem;
+}
+
+.activity {
+  display: block;
+  width: 100%;
+}
+
+.activity-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.activity-count {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--subtle);
+}
+
+.heatmap {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 12px);
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 3px;
+  width: 100%;
+}
+
+.heat-cell {
+  width: 100%;
+  height: 12px;
+  border-radius: 2px;
+  background: rgba(17, 17, 17, 0.06);
+}
+
+.heat-cell.l1 {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.heat-cell.l2 {
+  background: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+.heat-cell.l3 {
+  background: color-mix(in srgb, var(--accent) 75%, transparent);
+}
+.heat-cell.l4 {
+  background: var(--accent);
+}
+
+.agents {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem 1.1rem;
+  margin-top: 0.7rem;
+  list-style: none;
+}
+
+.agents li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.agents .n {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--subtle);
+}
+
+.brand {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  border-radius: 1px;
+}
+
+.brand.dot {
+  border-radius: 50%;
+  background: rgba(17, 17, 17, 0.15);
+}
+
+.writings {
+  display: flex;
+  flex-direction: column;
+  gap: 2.1rem;
+}
+
+.writing-title {
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.writing-title:hover {
+  color: var(--accent);
+}
+
+.writing-excerpt {
+  margin-top: 0.45rem;
+  color: var(--subtle);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.writing-meta {
+  margin-top: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.6rem;
+}
+
+.lede {
+  color: var(--subtle);
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  margin: 2rem 0 1rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.work-list,
+.book-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.work-list {
+  gap: 1.8rem;
+}
+
+.work-name {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.work-points {
+  margin-top: 0.4rem;
+  padding-left: 1.15rem;
+  color: var(--subtle);
+}
+
+.work-points li + li {
+  margin-top: 0.2rem;
+}
+
+.book-list li {
+  color: var(--foreground);
+}
+
+.book-list .author {
+  color: var(--subtle);
+}
+
+.article h1 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.article .body {
+  margin-top: 1.8rem;
+  max-width: 40rem;
+  color: var(--foreground);
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.article .body p + p {
+  margin-top: 1.25em;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.back:hover {
+  color: var(--accent);
+}
+
+.site-footer {
+  margin-top: 6rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding-top: 4.5rem;
+  }
+
+  .masthead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .nav {
+    justify-content: flex-start;
+    gap: 0.85rem;
+  }
+
+  .heatmap {
+    grid-template-rows: repeat(7, 8px);
+    gap: 2px;
+  }
+
+  .heat-cell {
+    height: 8px;
+  }
+}
