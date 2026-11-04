@@ -3,6 +3,17 @@ export interface WorkItem {
   points: [string, string, string]
 }
 
+export const PROJECTS: { name: string; year: string; icon: string }[] = [
+  { name: 'Agent harness profiler', year: '2026', icon: 'gauge' },
+  { name: 'Web research pipeline', year: '2025', icon: 'search' },
+  { name: 'Code review agent', year: '2025', icon: 'check' },
+  { name: 'API gateway', year: '2025', icon: 'bolt' },
+  { name: 'APEX F1', year: '2025', icon: 'flag' },
+  { name: 'where2', year: '2025', icon: 'map' },
+  { name: 'HowdyDoo', year: '2023', icon: 'ticket' },
+  { name: 'Lab PC status', year: '2025', icon: 'monitor' },
+]
+
 export const BUILDING: WorkItem[] = [
   {
     name: 'Coding Agent Harness Profiler',
