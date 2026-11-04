@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { cellColor, HEATMAP, TOOLS, TOTAL_ACTIONS } from './data/activity'
+import { MAX_SESSIONS, TOOLS, TOTAL_ACTIONS } from './data/activity'
 import { BUILDING, ON_THE_WEB } from './data/work'
 import { CURRENTLY_READING, LIBRARY } from './data/library'
 import { WRITINGS, getWriting } from './data/writings'
@@ -14,83 +14,41 @@ function href(to: string) {
   return `#${to}`
 }
 
-function Brand({ id }: { id: string }) {
-  const fill = TOOLS.find((tool) => tool.id === id)?.color ?? '#888'
-  if (id === 'openclaw') {
-    return (
-      <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
-        <circle cx="6" cy="6" r="5.2" fill={fill} />
-      </svg>
-    )
-  }
-  if (id === 'gemini') {
-    return (
-      <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
-        <path d="M6 1.1 10.9 6 6 10.9 1.1 6Z" fill={fill} />
-      </svg>
-    )
-  }
-  return (
-    <svg className="brand" viewBox="0 0 12 12" aria-hidden="true">
-      <rect width="12" height="12" rx="2" fill={fill} />
-    </svg>
-  )
-}
-
 function Layout({ children }: { children: React.ReactNode }) {
   const path = pathFromHash()
+  const onNotes = path === '/' || path.startsWith('/writings/')
   return (
     <div className="shell">
+      <aside className="rail">
+        <a className="mark" href={href('/')}>
+          SBN
+        </a>
+        <nav className="nav">
+          <a className={onNotes ? 'is-active' : ''} href={href('/')}>
+            Notes
+          </a>
+          <a className={path === '/work' ? 'is-active' : ''} href={href('/work')}>
+            Work
+          </a>
+          <a className={path === '/library' ? 'is-active' : ''} href={href('/library')}>
+            Library
+          </a>
+          <a href={SITE.github} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a href={SITE.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        </nav>
+        <p className="rail-meta">New York</p>
+      </aside>
       <main className="page">
-        <header className="masthead">
-          <h1>
-            <a href={href('/')}>{SITE.name}</a>
-          </h1>
-          <nav className="nav">
-            <a className={path === '/work' ? 'is-active' : ''} href={href('/work')}>
-              Work
-            </a>
-            <a className={path === '/library' ? 'is-active' : ''} href={href('/library')}>
-              Library
-            </a>
-            <a href={SITE.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <a href={SITE.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-          </nav>
-        </header>
-        <p className="tagline">{SITE.tagline}</p>
         {children}
         <footer className="site-footer">
-          <p className="kicker">© 2026 {SITE.name}</p>
-          <p className="footer-links">
-            <a href={SITE.email}>Email</a>
-            <a href={SITE.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <a href={SITE.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-          </p>
+          <span>© 2026 {SITE.name}</span>
+          <a href={SITE.email}>Email</a>
         </footer>
       </main>
-    </div>
-  )
-}
-
-function Heatmap() {
-  return (
-    <div className="heatmap" role="img" aria-label="Recent build activity by agent">
-      {HEATMAP.map((cell, i) => (
-        <span
-          key={i}
-          className={`heat-cell${cell.level ? ` l${cell.level}` : ''}`}
-          style={cell.tool ? { background: cellColor(cell) } : undefined}
-          title={cell.tool ? `${cell.tool.name} · ${cell.level}` : 'No session'}
-        />
-      ))}
     </div>
   )
 }
@@ -98,49 +56,66 @@ function Heatmap() {
 function Home() {
   return (
     <div className="stack">
-      <p className="bio">
-        NYU CS ’26. I sit in the customer’s stack, ship the integration, and measure whether the agent
-        actually did the work. API clients, tool-calling pipelines, eval harnesses. New York.
-      </p>
+      <header className="hero">
+        <p className="dateline">New York · NYU CS ’26</p>
+        <h1>
+          Sashank
+          <br />
+          Badri Narayan
+        </h1>
+        <p className="tagline">{SITE.tagline}</p>
+        <p className="bio">
+          I sit in the customer’s stack, ship the integration, and measure whether the agent actually
+          did the work. API clients, tool-calling pipelines, eval harnesses.
+        </p>
+      </header>
 
-      <section>
-        <div className="activity">
-          <span className="activity-head">
-            <span className="kicker">Build activity</span>
-            <span className="activity-count">{TOTAL_ACTIONS.toLocaleString()} sessions</span>
-          </span>
-          <Heatmap />
+      <section className="panel">
+        <div className="panel-head">
+          <h2>Sessions</h2>
+          <span>{TOTAL_ACTIONS.toLocaleString()}</span>
         </div>
-        <ul className="agents">
-          {TOOLS.map((a) => (
-            <li key={a.id}>
-              <Brand id={a.id} />
-              <span>{a.name}</span>
-              <span className="n">{a.sessions}</span>
+        <ul className="session-bars">
+          {TOOLS.map((tool) => (
+            <li key={tool.id}>
+              <span className="session-name">{tool.name}</span>
+              <span className="bar-track">
+                <span
+                  className="bar-fill"
+                  style={{
+                    width: `${(tool.sessions / MAX_SESSIONS) * 100}%`,
+                    background: tool.color,
+                  }}
+                />
+              </span>
+              <span className="session-n">{tool.sessions}</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section>
-        <h2 className="kicker" style={{ marginBottom: '1.1rem' }}>
-          Writings
-        </h2>
-        <div className="writings">
-          {WRITINGS.map((w) => (
-            <article key={w.slug}>
-              <a className="writing-title" href={href(`/writings/${w.slug}`)}>
-                {w.title}
-              </a>
-              <p className="writing-excerpt">{w.excerpt}</p>
-              <p className="writing-meta">
-                {w.date}
-                {'  ·  '}
-                {w.tags.join(' · ')}
-              </p>
-            </article>
-          ))}
+      <section className="panel">
+        <div className="panel-head">
+          <h2>Notes</h2>
         </div>
+        <ol className="notes">
+          {WRITINGS.map((w, i) => (
+            <li key={w.slug}>
+              <span className="note-num">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <a className="writing-title" href={href(`/writings/${w.slug}`)}>
+                  {w.title}
+                </a>
+                <p className="writing-excerpt">{w.excerpt}</p>
+                <p className="writing-meta">
+                  {w.date}
+                  {' · '}
+                  {w.tags.join(' · ')}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </section>
     </div>
   )
@@ -161,50 +136,74 @@ function WorkItemRow({ item }: { item: (typeof BUILDING)[number] }) {
 
 function Work() {
   return (
-    <div>
-      <h2 className="page-title">Work</h2>
-      <p className="lede">What I am building now, and what already shipped.</p>
+    <div className="stack inner">
+      <header className="page-head">
+        <p className="dateline">Selected work</p>
+        <h1 className="page-title">Work</h1>
+        <p className="lede">What I am building now, and what already shipped.</p>
+      </header>
 
-      <h3 className="section-title">Building</h3>
-      <ul className="work-list">
-        {BUILDING.map((item) => (
-          <WorkItemRow key={item.name} item={item} />
-        ))}
-      </ul>
+      <section className="panel">
+        <div className="panel-head">
+          <h2>Now</h2>
+        </div>
+        <ul className="work-list">
+          {BUILDING.map((item) => (
+            <WorkItemRow key={item.name} item={item} />
+          ))}
+        </ul>
+      </section>
 
-      <h3 className="section-title">On the web</h3>
-      <ul className="work-list">
-        {ON_THE_WEB.map((item) => (
-          <WorkItemRow key={item.name} item={item} />
-        ))}
-      </ul>
+      <section className="panel">
+        <div className="panel-head">
+          <h2>Shipped</h2>
+        </div>
+        <ul className="work-list">
+          {ON_THE_WEB.map((item) => (
+            <WorkItemRow key={item.name} item={item} />
+          ))}
+        </ul>
+      </section>
     </div>
   )
 }
 
 function Library() {
   return (
-    <div>
-      <h2 className="page-title">Library</h2>
-      <p className="lede">What I am reading, and what I want to read next.</p>
+    <div className="stack inner">
+      <header className="page-head">
+        <p className="dateline">On the desk</p>
+        <h1 className="page-title">Library</h1>
+        <p className="lede">What I am reading, and what I want to read next.</p>
+      </header>
 
-      <h3 className="section-title">Currently reading</h3>
-      <ul className="book-list">
-        {CURRENTLY_READING.map((b) => (
-          <li key={b.title}>
-            {b.title}, <span className="author">{b.author}</span>
-          </li>
-        ))}
-      </ul>
+      <section className="panel">
+        <div className="panel-head">
+          <h2>Now</h2>
+        </div>
+        <ul className="shelf">
+          {CURRENTLY_READING.map((b) => (
+            <li key={b.title} className="is-now">
+              <span className="book-title">{b.title}</span>
+              <span className="author">{b.author}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <h3 className="section-title">To read</h3>
-      <ul className="book-list">
-        {LIBRARY.map((b) => (
-          <li key={`${b.title}-${b.author}`}>
-            {b.title}, <span className="author">{b.author}</span>
-          </li>
-        ))}
-      </ul>
+      <section className="panel">
+        <div className="panel-head">
+          <h2>Next</h2>
+        </div>
+        <ul className="shelf cols">
+          {LIBRARY.map((b) => (
+            <li key={`${b.title}-${b.author}`}>
+              <span className="book-title">{b.title}</span>
+              <span className="author">{b.author}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   )
 }
@@ -213,9 +212,9 @@ function Writing({ slug }: { slug: string }) {
   const post = getWriting(slug)
   if (!post) {
     return (
-      <div>
+      <div className="stack inner">
         <a className="back" href={href('/')}>
-          ← Writings
+          Back to notes
         </a>
         <p className="lede">That piece isn't here.</p>
       </div>
@@ -224,14 +223,11 @@ function Writing({ slug }: { slug: string }) {
   return (
     <article className="article">
       <a className="back" href={href('/')}>
-        ← Writings
+        Back to notes
       </a>
+      <p className="dateline">{post.date}</p>
       <h1>{post.title}</h1>
-      <p className="writing-meta">
-        {post.date}
-        {'  ·  '}
-        {post.tags.join(' · ')}
-      </p>
+      <p className="writing-meta">{post.tags.join(' · ')}</p>
       <div className="body">
         {post.body.split(/\n\n+/).map((p) => (
           <p key={p.slice(0, 32)}>{p}</p>
