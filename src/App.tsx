@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { EXPERIENCE, EXPERIENCE_INDEX, PROJECT_DETAILS, PROJECTS } from './data/work'
+import { EXPERIENCE, PROJECTS, type WorkItem } from './data/work'
 import { CURRENTLY_READING, LIBRARY } from './data/library'
 import { WRITINGS, getWriting } from './data/writings'
 import { ROTATION } from './data/rotation'
@@ -42,6 +42,25 @@ function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
+function Row({
+  icon,
+  name,
+  year,
+}: {
+  icon: string
+  name: string
+  year: string
+}) {
+  return (
+    <>
+      <TinyIcon name={icon} />
+      <span className="post-title">{name}</span>
+      <span className="post-separator" />
+      <span className="post-year">{year}</span>
+    </>
+  )
+}
+
 function Leader({
   icon,
   name,
@@ -53,29 +72,41 @@ function Leader({
   year: string
   to?: string
 }) {
-  const inner = (
-    <>
-      <TinyIcon name={icon} />
-      <span className="post-title">{name}</span>
-      <span className="post-separator" />
-      <span className="post-year">{year}</span>
-    </>
-  )
   return (
     <li className="post-item">
       {to ? (
         <a className="post-link" href={to}>
-          {inner}
+          <Row icon={icon} name={name} year={year} />
         </a>
       ) : (
-        <div className="post-link">{inner}</div>
+        <div className="post-link">
+          <Row icon={icon} name={name} year={year} />
+        </div>
       )}
+    </li>
+  )
+}
+
+function PointRow({ item }: { item: WorkItem }) {
+  return (
+    <li className="post-item is-open">
+      <div className="post-link">
+        <Row icon={item.icon} name={item.name} year={item.year} />
+      </div>
+      <div className="point-card">
+        <ul>
+          {item.points.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+      </div>
     </li>
   )
 }
 
 function Fan() {
   const [open, setOpen] = useState<string | null>(null)
+  const [hot, setHot] = useState<string | null>(null)
   const active = ROTATION.find((item) => item.id === open)
 
   return (
@@ -84,8 +115,12 @@ function Fan() {
         {ROTATION.map((item) => (
           <button
             key={item.id}
-            className={`cover${open === item.id ? ' is-on' : ''}`}
-            onClick={() => setOpen(item.id)}
+            className={`cover${open === item.id ? ' is-on' : ''}${hot === item.id ? ' is-hot' : ''}`}
+            onMouseEnter={() => setHot(item.id)}
+            onMouseLeave={() => setHot(null)}
+            onFocus={() => setHot(item.id)}
+            onBlur={() => setHot(null)}
+            onClick={() => setOpen((current) => (current === item.id ? null : item.id))}
             type="button"
           >
             <img src={item.poster} alt={item.title} />
@@ -93,17 +128,23 @@ function Fan() {
         ))}
       </div>
       {active && (
-        <div className="picked">
+        <article className="flick-card">
           <img className="picked-cover" src={active.poster} alt="" />
-          <div className="picked-copy">
+          <div className="flick-copy">
             <h3>{active.title}</h3>
-            <p>{active.year}</p>
-            <p>{active.blurb}</p>
+            <p className="flick-meta">
+              {active.year} · {active.director}
+            </p>
+            <div className="flick-review">
+              {active.review.split(/\n\n+/).map((p) => (
+                <p key={p.slice(0, 40)}>{p}</p>
+              ))}
+            </div>
             <button type="button" onClick={() => setOpen(null)}>
               Close
             </button>
           </div>
-        </div>
+        </article>
       )}
     </div>
   )
@@ -160,8 +201,8 @@ function Home() {
       <section>
         <h2>Work</h2>
         <ul className="post-list">
-          {EXPERIENCE_INDEX.map((item) => (
-            <Leader key={item.name} icon={item.icon} name={item.name} year={item.year} />
+          {EXPERIENCE.map((item) => (
+            <PointRow key={item.name} item={item} />
           ))}
         </ul>
       </section>
@@ -170,7 +211,7 @@ function Home() {
         <h2>Projects</h2>
         <ul className="post-list">
           {PROJECTS.map((item) => (
-            <Leader key={item.name} icon={item.icon} name={item.name} year={item.year} />
+            <PointRow key={item.name} item={item} />
           ))}
         </ul>
       </section>
@@ -203,10 +244,11 @@ function Home() {
   )
 }
 
-function WorkItemRow({ item }: { item: (typeof EXPERIENCE)[number] }) {
+function WorkItemRow({ item }: { item: WorkItem }) {
   return (
     <li className="work-item">
       <h3>{item.name}</h3>
+      <p className="work-year">{item.year}</p>
       <ul>
         {item.points.map((point) => (
           <li key={point}>{point}</li>
@@ -224,7 +266,7 @@ function Work() {
       </a>
       <header>
         <h1>Work</h1>
-        <p className="lede">Jobs in one list. Projects in the other.</p>
+        <p className="lede">Jobs in one list. Projects in the other. Three points each.</p>
       </header>
       <section>
         <h2>Experience</h2>
@@ -237,7 +279,7 @@ function Work() {
       <section>
         <h2>Projects</h2>
         <ul className="work-list">
-          {PROJECT_DETAILS.map((item) => (
+          {PROJECTS.map((item) => (
             <WorkItemRow key={item.name} item={item} />
           ))}
         </ul>

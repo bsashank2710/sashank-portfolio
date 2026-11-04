@@ -225,14 +225,33 @@ h2 {
   display: flex;
   align-items: center;
   gap: 0.9rem;
+  width: 100%;
   margin: 0 -0.55rem;
   padding: 0.78rem 0.9rem;
   border-radius: 0.5rem;
+  text-align: left;
 }
 
-.post-link:hover {
+a.post-link:hover,
+button.post-link:hover {
   background: var(--color-bg-secondary);
   box-shadow: var(--shadow);
+}
+
+.point-card {
+  margin: -0.2rem 0 0.55rem;
+  padding: 0 0.9rem 0.2rem 2.7rem;
+}
+
+.point-card ul {
+  padding-left: 1.05rem;
+  list-style: disc;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.point-card li + li {
+  margin-top: 0.28rem;
 }
 
 .tiny {
@@ -270,22 +289,24 @@ h2 {
 
 .fan {
   position: relative;
-  height: 19rem;
+  height: 21rem;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  overflow: visible;
 }
 
 .cover {
   position: absolute;
+  z-index: 1;
   width: 8rem;
   height: 12rem;
   padding: 0;
   overflow: hidden;
   border-radius: 0.18rem;
   box-shadow: 0 10px 22px rgba(40, 30, 20, 0.2);
-  transform-origin: 50% 120%;
-  transition: transform 0.45s ease;
+  transform-origin: 50% 110%;
+  transition: transform 0.28s ease, z-index 0s, filter 0.28s ease;
 }
 
 .cover img,
@@ -315,57 +336,88 @@ h2 {
   transform: translateX(6.4rem) rotate(23deg);
 }
 
-.fan:hover .cover:nth-child(1) {
-  transform: translateX(-10.4rem) rotate(-30deg);
+.cover:nth-child(1):hover,
+.cover:nth-child(1).is-hot,
+.cover:nth-child(1).is-on {
+  z-index: 10;
+  transform: translateX(-8.2rem) translateY(-1.7rem) rotate(-8deg) scale(1.14);
 }
-.fan:hover .cover:nth-child(2) {
-  transform: translateX(-6.5rem) rotate(-18deg);
+.cover:nth-child(2):hover,
+.cover:nth-child(2).is-hot,
+.cover:nth-child(2).is-on {
+  z-index: 10;
+  transform: translateX(-5.1rem) translateY(-1.7rem) rotate(-5deg) scale(1.14);
 }
-.fan:hover .cover:nth-child(3) {
-  transform: translateX(-2.8rem) rotate(-7deg);
+.cover:nth-child(3):hover,
+.cover:nth-child(3).is-hot,
+.cover:nth-child(3).is-on {
+  z-index: 10;
+  transform: translateX(-2.2rem) translateY(-1.7rem) rotate(-2deg) scale(1.14);
 }
-.fan:hover .cover:nth-child(4) {
-  transform: translateX(0.8rem) translateY(-0.45rem) rotate(3deg);
+.cover:nth-child(4):hover,
+.cover:nth-child(4).is-hot,
+.cover:nth-child(4).is-on {
+  z-index: 10;
+  transform: translateX(0.6rem) translateY(-1.7rem) rotate(1deg) scale(1.14);
 }
-.fan:hover .cover:nth-child(5) {
-  transform: translateX(4.2rem) rotate(15deg);
+.cover:nth-child(5):hover,
+.cover:nth-child(5).is-hot,
+.cover:nth-child(5).is-on {
+  z-index: 10;
+  transform: translateX(3.4rem) translateY(-1.7rem) rotate(5deg) scale(1.14);
 }
-.fan:hover .cover:nth-child(6) {
-  transform: translateX(7.8rem) rotate(27deg);
+.cover:nth-child(6):hover,
+.cover:nth-child(6).is-hot,
+.cover:nth-child(6).is-on {
+  z-index: 10;
+  transform: translateX(6.4rem) translateY(-1.7rem) rotate(8deg) scale(1.14);
 }
 
-.cover.is-on {
-  z-index: 5;
-}
-
-.picked {
+.flick-card {
   display: grid;
-  grid-template-columns: 8rem 1fr;
-  gap: 1.2rem;
-  margin-top: 1.6rem;
-  align-items: center;
+  grid-template-columns: 9.4rem 1fr;
+  gap: 1.35rem;
+  margin-top: 1.5rem;
+  padding: 1.15rem 1.2rem 1.25rem;
+  align-items: start;
+  background: var(--color-bg-secondary);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
 }
 
 .picked-cover {
-  height: 12rem;
+  width: 9.4rem;
+  height: 14.1rem;
   border-radius: 0.18rem;
   box-shadow: 0 12px 28px rgba(40, 30, 20, 0.18);
 }
 
-.picked-copy h3 {
+.flick-copy h3 {
   font-family: var(--serif);
-  font-size: 1.2rem;
+  font-size: 1.45rem;
   font-weight: 400;
   color: var(--color-text);
 }
 
-.picked-copy p {
-  margin-top: 0.35rem;
-  color: var(--color-text-secondary);
+.flick-meta {
+  margin-top: 0.2rem;
+  color: var(--color-text-tertiary);
 }
 
-.picked-copy button {
-  margin-top: 0.6rem;
+.flick-review {
+  margin-top: 0.85rem;
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.flick-review p + p {
+  margin-top: 0.85em;
+}
+
+.flick-copy > button {
+  margin-top: 0.95rem;
   color: var(--color-text-tertiary);
 }
 
@@ -526,6 +578,12 @@ h2 {
   color: var(--color-text);
 }
 
+.work-year {
+  margin-top: 0.1rem;
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
 .work-item ul {
   margin-top: 0.35rem;
   padding-left: 1.1rem;
@@ -566,8 +624,13 @@ h2 {
     align-items: flex-start;
   }
 
-  .picked {
+  .flick-card {
     grid-template-columns: 1fr;
+  }
+
+  .picked-cover {
+    width: 8rem;
+    height: 12rem;
   }
 
   .deck {
