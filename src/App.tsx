@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MAX_SESSIONS, TOOLS, TOTAL_ACTIONS } from './data/activity'
+import { TOOLS, TOTAL_ACTIONS } from './data/activity'
 import { BUILDING, ON_THE_WEB } from './data/work'
 import { CURRENTLY_READING, LIBRARY } from './data/library'
 import { WRITINGS, getWriting } from './data/writings'
@@ -20,9 +20,15 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="shell">
       <aside className="rail">
-        <a className="mark" href={href('/')}>
-          SBN
-        </a>
+        <div>
+          <p className="rail-kicker">New York · NYU CS ’26</p>
+          <a className="identity" href={href('/')}>
+            <span>Sashank</span>
+            <span>Badri</span>
+            <span>Narayan</span>
+          </a>
+          <p className="rail-tag">{SITE.tagline}</p>
+        </div>
         <nav className="nav">
           <a className={onNotes ? 'is-active' : ''} href={href('/')}>
             Notes
@@ -40,82 +46,56 @@ function Layout({ children }: { children: React.ReactNode }) {
             LinkedIn
           </a>
         </nav>
-        <p className="rail-meta">New York</p>
+        <a className="rail-mail" href={SITE.email}>
+          Email me
+        </a>
       </aside>
-      <main className="page">
-        {children}
-        <footer className="site-footer">
-          <span>© 2026 {SITE.name}</span>
-          <a href={SITE.email}>Email</a>
-        </footer>
-      </main>
+      <main className="page">{children}</main>
     </div>
   )
 }
 
 function Home() {
   return (
-    <div className="stack">
-      <header className="hero">
-        <p className="dateline">New York · NYU CS ’26</p>
-        <h1>
-          Sashank
-          <br />
-          Badri Narayan
-        </h1>
-        <p className="tagline">{SITE.tagline}</p>
-        <p className="bio">
+    <div className="canvas">
+      <header className="intro">
+        <p>
           I sit in the customer’s stack, ship the integration, and measure whether the agent actually
           did the work. API clients, tool-calling pipelines, eval harnesses.
         </p>
       </header>
 
-      <section className="panel">
-        <div className="panel-head">
-          <h2>Sessions</h2>
-          <span>{TOTAL_ACTIONS.toLocaleString()}</span>
+      <section>
+        <div className="section-head">
+          <h2>Agents</h2>
+          <span>{TOTAL_ACTIONS.toLocaleString()} sessions</span>
         </div>
-        <ul className="session-bars">
+        <ul className="chips">
           {TOOLS.map((tool) => (
             <li key={tool.id}>
-              <span className="session-name">{tool.name}</span>
-              <span className="bar-track">
-                <span
-                  className="bar-fill"
-                  style={{
-                    width: `${(tool.sessions / MAX_SESSIONS) * 100}%`,
-                    background: tool.color,
-                  }}
-                />
-              </span>
-              <span className="session-n">{tool.sessions}</span>
+              <i style={{ background: tool.color }} />
+              {tool.name}
+              <b>{tool.sessions}</b>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="panel">
-        <div className="panel-head">
+      <section>
+        <div className="section-head">
           <h2>Notes</h2>
         </div>
-        <ol className="notes">
-          {WRITINGS.map((w, i) => (
-            <li key={w.slug}>
-              <span className="note-num">{String(i + 1).padStart(2, '0')}</span>
-              <div>
-                <a className="writing-title" href={href(`/writings/${w.slug}`)}>
-                  {w.title}
-                </a>
-                <p className="writing-excerpt">{w.excerpt}</p>
-                <p className="writing-meta">
-                  {w.date}
-                  {' · '}
-                  {w.tags.join(' · ')}
-                </p>
-              </div>
-            </li>
+        <div className="card-grid">
+          {WRITINGS.map((w) => (
+            <a key={w.slug} className="card" href={href(`/writings/${w.slug}`)}>
+              <h3>{w.title}</h3>
+              <p>{w.excerpt}</p>
+              <span>
+                {w.date} · {w.tags[0]}
+              </span>
+            </a>
           ))}
-        </ol>
+        </div>
       </section>
     </div>
   )
@@ -123,9 +103,9 @@ function Home() {
 
 function WorkItemRow({ item }: { item: (typeof BUILDING)[number] }) {
   return (
-    <li className="work-item">
-      <span className="work-name">{item.name}</span>
-      <ul className="work-points">
+    <li className="card work-card">
+      <h3>{item.name}</h3>
+      <ul>
         {item.points.map((point) => (
           <li key={point}>{point}</li>
         ))}
@@ -136,29 +116,28 @@ function WorkItemRow({ item }: { item: (typeof BUILDING)[number] }) {
 
 function Work() {
   return (
-    <div className="stack inner">
-      <header className="page-head">
-        <p className="dateline">Selected work</p>
-        <h1 className="page-title">Work</h1>
-        <p className="lede">What I am building now, and what already shipped.</p>
+    <div className="canvas">
+      <header className="intro">
+        <h1>Work</h1>
+        <p>What I am building now, and what already shipped.</p>
       </header>
 
-      <section className="panel">
-        <div className="panel-head">
+      <section>
+        <div className="section-head">
           <h2>Now</h2>
         </div>
-        <ul className="work-list">
+        <ul className="card-grid">
           {BUILDING.map((item) => (
             <WorkItemRow key={item.name} item={item} />
           ))}
         </ul>
       </section>
 
-      <section className="panel">
-        <div className="panel-head">
+      <section>
+        <div className="section-head">
           <h2>Shipped</h2>
         </div>
-        <ul className="work-list">
+        <ul className="card-grid">
           {ON_THE_WEB.map((item) => (
             <WorkItemRow key={item.name} item={item} />
           ))}
@@ -170,36 +149,35 @@ function Work() {
 
 function Library() {
   return (
-    <div className="stack inner">
-      <header className="page-head">
-        <p className="dateline">On the desk</p>
-        <h1 className="page-title">Library</h1>
-        <p className="lede">What I am reading, and what I want to read next.</p>
+    <div className="canvas">
+      <header className="intro">
+        <h1>Library</h1>
+        <p>What I am reading, and what I want to read next.</p>
       </header>
 
-      <section className="panel">
-        <div className="panel-head">
+      <section>
+        <div className="section-head">
           <h2>Now</h2>
         </div>
-        <ul className="shelf">
+        <ul className="book-grid">
           {CURRENTLY_READING.map((b) => (
             <li key={b.title} className="is-now">
-              <span className="book-title">{b.title}</span>
-              <span className="author">{b.author}</span>
+              <strong>{b.title}</strong>
+              <span>{b.author}</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="panel">
-        <div className="panel-head">
+      <section>
+        <div className="section-head">
           <h2>Next</h2>
         </div>
-        <ul className="shelf cols">
+        <ul className="book-grid">
           {LIBRARY.map((b) => (
             <li key={`${b.title}-${b.author}`}>
-              <span className="book-title">{b.title}</span>
-              <span className="author">{b.author}</span>
+              <strong>{b.title}</strong>
+              <span>{b.author}</span>
             </li>
           ))}
         </ul>
@@ -212,22 +190,22 @@ function Writing({ slug }: { slug: string }) {
   const post = getWriting(slug)
   if (!post) {
     return (
-      <div className="stack inner">
+      <div className="canvas">
         <a className="back" href={href('/')}>
-          Back to notes
+          All notes
         </a>
-        <p className="lede">That piece isn't here.</p>
+        <p>That piece isn't here.</p>
       </div>
     )
   }
   return (
     <article className="article">
       <a className="back" href={href('/')}>
-        Back to notes
+        All notes
       </a>
-      <p className="dateline">{post.date}</p>
+      <span className="meta">{post.date}</span>
       <h1>{post.title}</h1>
-      <p className="writing-meta">{post.tags.join(' · ')}</p>
+      <p className="meta">{post.tags.join(' · ')}</p>
       <div className="body">
         {post.body.split(/\n\n+/).map((p) => (
           <p key={p.slice(0, 32)}>{p}</p>
