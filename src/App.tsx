@@ -194,7 +194,7 @@ function Home() {
             did the work.
           </p>
           <p className="intro">
-            I like <em>F1</em>, poker, swimming, and sitting in a customer’s stack until the 500s
+            I like <em>F1</em>, poker, basketball, and sitting in a customer’s stack until the 500s
             make sense.
           </p>
         </div>

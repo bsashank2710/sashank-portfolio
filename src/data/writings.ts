@@ -143,7 +143,7 @@ AI accelerates all of that, which is the part of the discourse that is true. It 
 
 Cybersecurity is the adult supervision we pretend is optional. A CCNA does not make you wise. A PCNSE does not either. What they encode is that packets and identities are political. They decide who is inside. An LLM with tool access is inside. Treat it that way: least privilege, audit trail, replay, a kill switch that is not buried in a vendor’s status page.
 
-I care about poker, F1, and swimming because they are honest about measurement. The lap exists. The lap time exists. The DNF exists. Tech culture keeps trying to replace those with vibes: “it feels faster,” “the model is so much better now.” Feelings are data. They are not the only data.
+I care about poker, F1, and basketball because they are honest about measurement. The box score exists. The miss exists. The DNF exists. Tech culture keeps trying to replace those with vibes: “it feels faster,” “the model is so much better now.” Feelings are data. They are not the only data.
 
 The influence of modern tech, as I have lived it, is not that we will all be replaced. It is that more of the room will be decided by systems whose tail latency, whose tool errors, and whose logs we never learned to read. I want to be the person who reads them, on-site, in the customer’s stack, before the room changes in a way nobody intended.
 
