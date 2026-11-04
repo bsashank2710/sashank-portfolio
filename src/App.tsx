@@ -56,19 +56,19 @@ function Leader({
   const inner = (
     <>
       <TinyIcon name={icon} />
-      <span className="leader-name">{name}</span>
-      <span className="leader-dots" />
-      <span className="leader-year">{year}</span>
+      <span className="post-title">{name}</span>
+      <span className="post-separator" />
+      <span className="post-year">{year}</span>
     </>
   )
   return (
-    <li>
+    <li className="post-item">
       {to ? (
-        <a className="leader" href={to}>
+        <a className="post-link" href={to}>
           {inner}
         </a>
       ) : (
-        <div className="leader">{inner}</div>
+        <div className="post-link">{inner}</div>
       )}
     </li>
   )
@@ -148,27 +148,25 @@ function Deck() {
 
 function Home() {
   return (
-    <div className="letter">
-      <section className="hello">
-        <Portrait />
-        <div>
-          <h1>
-            Hey, I’m Sashank.
-          </h1>
-          <p>
-            NYU CS ’26. I ship API integrations and LLM agents, then measure whether they actually
-            did the work.
-          </p>
-          <p>
-            I like <b>F1</b>, poker, swimming, and sitting in a customer’s stack until the 500s make
-            sense.
-          </p>
-        </div>
-      </section>
+    <div className="home">
+      <header className="hello">
+        <h1>
+          <Portrait />
+          <span>Hey, I’m Sashank.</span>
+        </h1>
+        <p className="intro">
+          NYU CS ’26. I ship API integrations and LLM agents, then measure whether they actually did
+          the work.
+        </p>
+        <p className="intro">
+          I like <em>F1</em>, poker, swimming, and sitting in a customer’s stack until the 500s make
+          sense.
+        </p>
+      </header>
 
       <section>
         <h2>Projects</h2>
-        <ul className="leaders">
+        <ul className="post-list">
           {PROJECTS.map((item) => (
             <Leader key={item.name} icon={item.icon} name={item.name} year={item.year} />
           ))}
@@ -177,7 +175,7 @@ function Home() {
 
       <section>
         <h2>Notes</h2>
-        <ul className="leaders">
+        <ul className="post-list">
           {WRITINGS.map((w) => (
             <Leader
               key={w.slug}
@@ -191,12 +189,12 @@ function Home() {
       </section>
 
       <section>
-        <h2>On rotation</h2>
+        <h2>Recent flicks</h2>
         <Fan />
       </section>
 
       <section>
-        <h2>Playing</h2>
+        <h2>Recent jams</h2>
         <Deck />
       </section>
     </div>
@@ -218,7 +216,7 @@ function WorkItemRow({ item }: { item: (typeof BUILDING)[number] }) {
 
 function Work() {
   return (
-    <div className="letter">
+    <div className="home">
       <a className="back" href={href('/')}>
         Back
       </a>
@@ -242,20 +240,20 @@ function Work() {
 
 function Library() {
   return (
-    <div className="letter">
+    <div className="home">
       <a className="back" href={href('/')}>
         Back
       </a>
       <h1>Library</h1>
       <p className="lede">What I am reading, and what I want to read next.</p>
       <h2>Now</h2>
-      <ul className="leaders">
+      <ul className="post-list">
         {CURRENTLY_READING.map((b) => (
           <Leader key={b.title} icon="note" name={b.title} year={b.author} />
         ))}
       </ul>
       <h2>Next</h2>
-      <ul className="leaders">
+      <ul className="post-list">
         {LIBRARY.map((b) => (
           <Leader key={b.title} icon="note" name={b.title} year={b.author} />
         ))}
@@ -268,16 +266,16 @@ function Writing({ slug }: { slug: string }) {
   const post = getWriting(slug)
   if (!post) {
     return (
-      <div className="letter">
+      <div className="home">
         <a className="back" href={href('/')}>
           Back
         </a>
-        <p>That piece isn't here.</p>
+        <p className="intro">That piece isn't here.</p>
       </div>
     )
   }
   return (
-    <article className="letter article">
+    <article className="home article">
       <a className="back" href={href('/')}>
         Back
       </a>
