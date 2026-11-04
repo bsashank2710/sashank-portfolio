@@ -26,8 +26,8 @@ body,
 
 body {
   font-family: var(--sans);
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -61,61 +61,91 @@ ul {
 .sheet {
   position: relative;
   z-index: 1;
-  max-width: 25rem;
+  max-width: 42rem;
   margin: 0 auto;
-  padding: 4.5rem 1.25rem 4rem;
+  padding: 6.5rem 2rem 6rem;
 }
 
 .home {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3.8rem;
+}
+
+.hello {
+  overflow: visible;
 }
 
 .hello h1 {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 1rem;
+  gap: 1.15rem;
+  margin-bottom: 1.45rem;
   overflow: visible;
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: 2.05rem;
   font-weight: 400;
   letter-spacing: -0.025em;
   color: var(--color-text);
   line-height: 1.3;
 }
 
-.portrait {
-  width: 5.6rem;
-  height: 5.2rem;
+.doodle {
+  position: relative;
   flex: none;
+  width: 7rem;
+  height: 6.2rem;
   overflow: visible;
   color: var(--color-text);
 }
 
-.say-hi-text {
+.portrait {
+  width: 6.2rem;
+  height: 6.2rem;
+  overflow: visible;
+}
+
+.bubble {
+  position: absolute;
+  left: 4.2rem;
+  top: -0.2rem;
+  z-index: 2;
+  padding: 0.2rem 0.5rem 0.28rem;
+  background: var(--color-bg);
+  border: 1.5px solid currentColor;
+  border-radius: 1rem;
   font-family: var(--serif);
-  font-size: 11px;
-  fill: currentColor;
+  font-size: 0.82rem;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: 0.35rem;
+  bottom: -0.28rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--color-bg);
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(48deg);
 }
 
 .wave-arm {
-  transform-origin: 70px 62px;
-  animation: wave 1.5s ease-in-out 0.35s 3 both;
+  transform-box: fill-box;
+  transform-origin: 8% 12%;
 }
 
-.say-hi {
-  transform-origin: 92px 20px;
-  animation: hi-pop 1.5s ease 0.4s 3 both;
+.doodle.is-waving .wave-arm {
+  animation: wave 1.4s ease-in-out 2;
 }
 
-.portrait:hover .wave-arm {
-  animation: wave 0.7s ease-in-out infinite;
-}
-
-.portrait:hover .say-hi {
-  animation: hi-pop 0.7s ease infinite;
+.doodle.is-waving .bubble {
+  animation: hi-pop 3.8s ease 1;
 }
 
 .blink {
@@ -137,15 +167,18 @@ ul {
 }
 
 @keyframes hi-pop {
-  0%,
-  100% {
+  0% {
     opacity: 0;
-    transform: scale(0.7) translateY(3px);
+    transform: scale(0.8) translateY(4px);
   }
-  18%,
-  72% {
+  12%,
+  78% {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92) translateY(2px);
   }
 }
 
@@ -161,12 +194,12 @@ ul {
 }
 
 .intro {
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
   font-family: var(--serif);
-  font-size: 1.125rem;
+  font-size: 1.38rem;
   letter-spacing: -0.025em;
   color: var(--color-text);
-  line-height: 1.45;
+  line-height: 1.55;
 }
 
 .intro em {
@@ -175,9 +208,9 @@ ul {
 }
 
 h2 {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.85em;
   font-family: var(--serif);
-  font-size: 1.25rem;
+  font-size: 1.55rem;
   font-weight: 400;
   letter-spacing: -0.025em;
   color: var(--color-text);
@@ -191,9 +224,9 @@ h2 {
 .post-link {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin: 0 -0.5rem;
-  padding: 0.5rem 0.75rem;
+  gap: 0.9rem;
+  margin: 0 -0.55rem;
+  padding: 0.78rem 0.9rem;
   border-radius: 0.5rem;
 }
 
@@ -214,7 +247,7 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--color-text);
 }
@@ -237,7 +270,7 @@ h2 {
 
 .fan {
   position: relative;
-  height: 12.5rem;
+  height: 19rem;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -245,88 +278,77 @@ h2 {
 
 .cover {
   position: absolute;
-  width: 6.2rem;
-  height: 9.1rem;
-  padding: 0.65rem 0.55rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: left;
-  border-radius: 0.15rem;
-  box-shadow: 0 10px 22px rgba(40, 30, 20, 0.16);
+  width: 8rem;
+  height: 12rem;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0.18rem;
+  box-shadow: 0 10px 22px rgba(40, 30, 20, 0.2);
   transform-origin: 50% 120%;
   transition: transform 0.45s ease;
 }
 
-.cover strong {
-  font-family: var(--serif);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.cover-tag,
-.cover em {
-  font-size: 0.62rem;
-  font-style: normal;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.8;
+.cover img,
+.picked-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .cover:nth-child(1) {
-  transform: translateX(-5.4rem) rotate(-22deg);
+  transform: translateX(-8.2rem) rotate(-24deg);
 }
 .cover:nth-child(2) {
-  transform: translateX(-3.5rem) rotate(-13deg);
+  transform: translateX(-5.1rem) rotate(-15deg);
 }
 .cover:nth-child(3) {
-  transform: translateX(-1.7rem) rotate(-5deg);
+  transform: translateX(-2.2rem) rotate(-6deg);
 }
 .cover:nth-child(4) {
-  transform: rotate(3deg);
+  transform: translateX(0.6rem) rotate(4deg);
 }
 .cover:nth-child(5) {
-  transform: translateX(1.8rem) rotate(11deg);
+  transform: translateX(3.4rem) rotate(13deg);
 }
 .cover:nth-child(6) {
-  transform: translateX(3.6rem) rotate(20deg);
+  transform: translateX(6.4rem) rotate(23deg);
 }
 
 .fan:hover .cover:nth-child(1) {
-  transform: translateX(-7.2rem) rotate(-28deg);
+  transform: translateX(-10.4rem) rotate(-30deg);
 }
 .fan:hover .cover:nth-child(2) {
-  transform: translateX(-4.6rem) rotate(-16deg);
+  transform: translateX(-6.5rem) rotate(-18deg);
 }
 .fan:hover .cover:nth-child(3) {
-  transform: translateX(-2.1rem) rotate(-6deg);
+  transform: translateX(-2.8rem) rotate(-7deg);
 }
 .fan:hover .cover:nth-child(4) {
-  transform: translateY(-0.35rem) rotate(2deg);
+  transform: translateX(0.8rem) translateY(-0.45rem) rotate(3deg);
 }
 .fan:hover .cover:nth-child(5) {
-  transform: translateX(2.2rem) rotate(12deg);
+  transform: translateX(4.2rem) rotate(15deg);
 }
 .fan:hover .cover:nth-child(6) {
-  transform: translateX(4.6rem) rotate(24deg);
+  transform: translateX(7.8rem) rotate(27deg);
+}
+
+.cover.is-on {
+  z-index: 5;
 }
 
 .picked {
   display: grid;
-  grid-template-columns: 6.4rem 1fr;
-  gap: 1rem;
-  margin-top: 1.2rem;
+  grid-template-columns: 8rem 1fr;
+  gap: 1.2rem;
+  margin-top: 1.6rem;
   align-items: center;
 }
 
 .picked-cover {
-  height: 9.4rem;
-  padding: 0.65rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 0.15rem;
+  height: 12rem;
+  border-radius: 0.18rem;
   box-shadow: 0 12px 28px rgba(40, 30, 20, 0.18);
 }
 
@@ -350,19 +372,27 @@ h2 {
 .deck {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 6.8rem;
-  gap: 0.7rem;
+  grid-template-columns: 4.4rem 1fr 6.8rem;
+  gap: 0.75rem;
   align-items: center;
-  padding: 0.8rem 0.8rem 0.8rem 0.95rem;
+  padding: 0.85rem 0.85rem 0.85rem 0.9rem;
   background: #e8ce97;
-  border-radius: 0.4rem;
+  border-radius: 0.5rem;
   box-shadow: inset 0 0 0 1px rgba(90, 60, 20, 0.1);
+}
+
+.sleeve-art {
+  width: 4.4rem;
+  height: 4.4rem;
+  object-fit: cover;
+  border-radius: 0.2rem;
+  box-shadow: 0 4px 10px rgba(40, 30, 20, 0.2);
 }
 
 .sleeve span {
   display: block;
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   color: var(--color-text);
 }
 
@@ -393,15 +423,10 @@ h2 {
 }
 
 .label {
-  width: 2rem;
-  height: 2rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border-radius: 50%;
-  background: #2c6b6a;
-  color: #e8f4f2;
-  font-size: 0.5rem;
-  display: grid;
-  place-items: center;
-  letter-spacing: 0.06em;
+  object-fit: cover;
 }
 
 .deck.is-on .platter {
@@ -433,8 +458,8 @@ h2 {
 .deck-ui {
   grid-column: 1 / -1;
   display: flex;
-  gap: 0.7rem;
-  font-size: 0.75rem;
+  gap: 0.8rem;
+  font-size: 0.8rem;
   color: #6a542e;
 }
 
@@ -518,9 +543,9 @@ h2 {
   margin-top: 1em;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .sheet {
-    padding: 2.2rem 1.1rem 3rem;
+    padding: 2.6rem 1.2rem 3.4rem;
   }
 
   .hello h1 {
@@ -530,5 +555,13 @@ h2 {
 
   .picked {
     grid-template-columns: 1fr;
+  }
+
+  .deck {
+    grid-template-columns: 3.8rem 1fr;
+  }
+
+  .platter {
+    display: none;
   }
 }

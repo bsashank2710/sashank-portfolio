@@ -1,62 +1,79 @@
+import { useEffect, useState } from 'react'
+
+const QUOTES = ['box box', 'p95', 'ship it', 'fold', 'lights out', 'ntp', 'ayo', 'gg', 'in the stack', 'copy that']
+
 export function Portrait() {
+  const [quote, setQuote] = useState('hi')
+  const [waving, setWaving] = useState(true)
+
+  useEffect(() => {
+    const restart = () => {
+      setWaving(false)
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setWaving(true))
+      })
+    }
+    restart()
+    const id = window.setInterval(() => {
+      setQuote((current) => {
+        let next = current
+        while (next === current) next = QUOTES[Math.floor(Math.random() * QUOTES.length)]
+        return next
+      })
+      restart()
+    }, 5000)
+    return () => window.clearInterval(id)
+  }, [])
+
   return (
-    <svg className="portrait" viewBox="0 0 108 100" aria-hidden="true">
-      <g className="say-hi">
+    <span className={`doodle${waving ? ' is-waving' : ''}`}>
+      <span className="bubble">{quote}</span>
+      <svg className="portrait" viewBox="0 0 92 96" aria-hidden="true">
         <path
-          d="M76 20c0-8 7-14 16-14s16 6 16 14-7 14-16 14c-2.4 0-4.6-.4-6.5-1.2L80 38l2.2-6.4C77.4 29 76 25 76 20z"
-          fill="var(--color-bg)"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-        <text x="92" y="24.5" textAnchor="middle" className="say-hi-text">
-          hi
-        </text>
-      </g>
-      <path
-        d="M28 80c2-14 6-24 16-28 11-4 22 2 26 14 2 8 3 16 3 22"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <path
-        d="M24 40c2-16 12-28 26-28 12 0 22 8 24 20 1 7-2 14-8 18"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <path
-        d="M30 24c6-8 16-12 26-8 6 2 12 8 14 16M22 36c4-2 8 1 8 6M64 34c5 0 8 4 8 8"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <g className="blink">
-        <circle cx="40" cy="42" r="1.4" fill="currentColor" />
-        <circle cx="56" cy="42" r="1.4" fill="currentColor" />
-      </g>
-      <path d="M44 50c3 3 8 3 11 0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M34 72c8 8 22 8 32-1" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <g className="wave-arm">
-        <path
-          d="M70 62c9 3 14 11 15 20"
+          d="M28 80c2-14 6-24 16-28 11-4 22 2 26 14 2 8 3 16 3 22"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.6"
           strokeLinecap="round"
         />
         <path
-          d="M84 80c3 3 7 3 9-1M85 78c4 4 8 2 9-2M83 77c2-4 7-5 10-1"
+          d="M24 40c2-16 12-28 26-28 12 0 22 8 24 20 1 7-2 14-8 18"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="1.6"
           strokeLinecap="round"
         />
-      </g>
-    </svg>
+        <path
+          d="M30 24c6-8 16-12 26-8 6 2 12 8 14 16M22 36c4-2 8 1 8 6M64 34c5 0 8 4 8 8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+        <g className="blink">
+          <circle cx="40" cy="42" r="1.4" fill="currentColor" />
+          <circle cx="56" cy="42" r="1.4" fill="currentColor" />
+        </g>
+        <path d="M44 50c3 3 8 3 11 0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M34 72c8 8 22 8 32-1" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <g className="wave-arm">
+          <path
+            d="M70 62c9 3 14 11 15 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+          <path
+            d="M84 80c3 3 7 3 9-1M85 78c4 4 8 2 9-2M83 77c2-4 7-5 10-1"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </g>
+      </svg>
+    </span>
   )
 }
 

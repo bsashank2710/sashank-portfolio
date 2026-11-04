@@ -85,27 +85,19 @@ function Fan() {
           <button
             key={item.id}
             className={`cover${open === item.id ? ' is-on' : ''}`}
-            style={{ background: item.tone, color: item.ink }}
             onClick={() => setOpen(item.id)}
             type="button"
           >
-            <span className="cover-tag">{item.tag}</span>
-            <strong>{item.title}</strong>
-            <em>{item.year}</em>
+            <img src={item.poster} alt={item.title} />
           </button>
         ))}
       </div>
       {active && (
         <div className="picked">
-          <div className="picked-cover" style={{ background: active.tone, color: active.ink }}>
-            <span>{active.tag}</span>
-            <strong>{active.title}</strong>
-          </div>
+          <img className="picked-cover" src={active.poster} alt="" />
           <div className="picked-copy">
             <h3>{active.title}</h3>
-            <p>
-              {active.tag} · {active.year}
-            </p>
+            <p>{active.year}</p>
             <p>{active.blurb}</p>
             <button type="button" onClick={() => setOpen(null)}>
               Close
@@ -122,13 +114,14 @@ function Deck() {
   const [on, setOn] = useState(true)
   return (
     <div className={`deck${on ? ' is-on' : ''}${fast ? ' is-fast' : ''}`}>
+      <img className="sleeve-art" src="jams/robbers.jpg" alt="The 1975" />
       <div className="sleeve">
-        <span>Parc Fermé</span>
-        <small>late night mix</small>
+        <span>Robbers</span>
+        <small>The 1975</small>
       </div>
       <div className="platter" aria-hidden="true">
         <span className="groove" />
-        <span className="label">SBN</span>
+        <img className="label" src="jams/robbers.jpg" alt="" />
       </div>
       <div className="arm" aria-hidden="true" />
       <div className="deck-ui">
@@ -189,7 +182,7 @@ function Home() {
       </section>
 
       <section>
-        <h2>Recent flicks</h2>
+        <h2>Favourites</h2>
         <Fan />
       </section>
 
