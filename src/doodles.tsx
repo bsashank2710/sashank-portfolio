@@ -102,6 +102,7 @@ const ICONS: Record<string, string> = {
   ticket: 'M3 6h12v8H3zM3 10h12',
   monitor: 'M3 4h12v8H3zM7 14h4',
   note: 'M5 3h7l3 3v9H5z',
+  briefcase: 'M3 6h10v8H3zM6 6V4h4v2M3 9h10',
 }
 
 export function TinyIcon({ name }: { name: string }) {

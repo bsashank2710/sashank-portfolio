@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { PROJECTS, BUILDING, ON_THE_WEB } from './data/work'
+import { EXPERIENCE, EXPERIENCE_INDEX, PROJECT_DETAILS, PROJECTS } from './data/work'
 import { CURRENTLY_READING, LIBRARY } from './data/library'
 import { WRITINGS, getWriting } from './data/writings'
 import { ROTATION } from './data/rotation'
@@ -158,6 +158,15 @@ function Home() {
       </header>
 
       <section>
+        <h2>Work</h2>
+        <ul className="post-list">
+          {EXPERIENCE_INDEX.map((item) => (
+            <Leader key={item.name} icon={item.icon} name={item.name} year={item.year} />
+          ))}
+        </ul>
+      </section>
+
+      <section>
         <h2>Projects</h2>
         <ul className="post-list">
           {PROJECTS.map((item) => (
@@ -194,7 +203,7 @@ function Home() {
   )
 }
 
-function WorkItemRow({ item }: { item: (typeof BUILDING)[number] }) {
+function WorkItemRow({ item }: { item: (typeof EXPERIENCE)[number] }) {
   return (
     <li className="work-item">
       <h3>{item.name}</h3>
@@ -213,20 +222,26 @@ function Work() {
       <a className="back" href={href('/')}>
         Back
       </a>
-      <h1>Work</h1>
-      <p className="lede">What I am building now, and what already shipped.</p>
-      <h2>Now</h2>
-      <ul className="work-list">
-        {BUILDING.map((item) => (
-          <WorkItemRow key={item.name} item={item} />
-        ))}
-      </ul>
-      <h2>Shipped</h2>
-      <ul className="work-list">
-        {ON_THE_WEB.map((item) => (
-          <WorkItemRow key={item.name} item={item} />
-        ))}
-      </ul>
+      <header>
+        <h1>Work</h1>
+        <p className="lede">Jobs in one list. Projects in the other.</p>
+      </header>
+      <section>
+        <h2>Experience</h2>
+        <ul className="work-list">
+          {EXPERIENCE.map((item) => (
+            <WorkItemRow key={item.name} item={item} />
+          ))}
+        </ul>
+      </section>
+      <section>
+        <h2>Projects</h2>
+        <ul className="work-list">
+          {PROJECT_DETAILS.map((item) => (
+            <WorkItemRow key={item.name} item={item} />
+          ))}
+        </ul>
+      </section>
     </div>
   )
 }
