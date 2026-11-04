@@ -188,14 +188,16 @@ function Home() {
           <Portrait />
           <span>Hey, I’m Sashank.</span>
         </h1>
-        <p className="intro">
-          NYU CS ’26. I ship API integrations and LLM agents, then measure whether they actually did
-          the work.
-        </p>
-        <p className="intro">
-          I like <em>F1</em>, poker, swimming, and sitting in a customer’s stack until the 500s make
-          sense.
-        </p>
+        <div className="hello-copy">
+          <p className="intro">
+            NYU CS ’26. I ship API integrations and LLM agents, then measure whether they actually
+            did the work.
+          </p>
+          <p className="intro">
+            I like <em>F1</em>, poker, swimming, and sitting in a customer’s stack until the 500s
+            make sense.
+          </p>
+        </div>
       </header>
 
       <section>
